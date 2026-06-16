@@ -1,0 +1,128 @@
+# Generated Clash rule-provider snippet.
+# Copy the provider entries and RULE-SET lines into your main Clash config.
+# Keep unrelated providers, proxy groups, and custom rules from your own config.
+# The old cn-media provider is intentionally omitted because Sukka has no stream_cn.txt.
+
+rule-providers:
+  lan:
+    type: http
+    behavior: classical
+    format: text
+    interval: 43200
+    url: https://raw.githubusercontent.com/chunzhimoe/ruleset-skk/main/ruleset/lan.txt
+    path: ./ruleset/lan.txt
+  lancidr:
+    type: http
+    behavior: classical
+    format: text
+    interval: 43200
+    url: https://raw.githubusercontent.com/chunzhimoe/ruleset-skk/main/ruleset/lancidr.txt
+    path: ./ruleset/lancidr.txt
+  reject:
+    type: http
+    behavior: domain
+    format: text
+    interval: 43200
+    url: https://raw.githubusercontent.com/chunzhimoe/ruleset-skk/main/ruleset/reject.txt
+    path: ./ruleset/reject.txt
+  openai:
+    type: http
+    behavior: classical
+    format: text
+    interval: 43200
+    url: https://raw.githubusercontent.com/chunzhimoe/ruleset-skk/main/ruleset/openai.txt
+    path: ./ruleset/openai.txt
+  claude:
+    type: http
+    behavior: classical
+    format: text
+    interval: 43200
+    url: https://raw.githubusercontent.com/chunzhimoe/ruleset-skk/main/ruleset/claude.txt
+    path: ./ruleset/claude.txt
+  grok:
+    type: http
+    behavior: classical
+    format: text
+    interval: 43200
+    url: https://raw.githubusercontent.com/chunzhimoe/ruleset-skk/main/ruleset/grok.txt
+    path: ./ruleset/grok.txt
+  telegram:
+    type: http
+    behavior: classical
+    format: text
+    interval: 43200
+    url: https://raw.githubusercontent.com/chunzhimoe/ruleset-skk/main/ruleset/telegram.txt
+    path: ./ruleset/telegram.txt
+  telegramcidr:
+    type: http
+    behavior: classical
+    format: text
+    interval: 43200
+    url: https://raw.githubusercontent.com/chunzhimoe/ruleset-skk/main/ruleset/telegramcidr.txt
+    path: ./ruleset/telegramcidr.txt
+  streaming:
+    type: http
+    behavior: classical
+    format: text
+    interval: 43200
+    url: https://raw.githubusercontent.com/chunzhimoe/ruleset-skk/main/ruleset/streaming.txt
+    path: ./ruleset/streaming.txt
+  streamingip:
+    type: http
+    behavior: classical
+    format: text
+    interval: 43200
+    url: https://raw.githubusercontent.com/chunzhimoe/ruleset-skk/main/ruleset/streamingip.txt
+    path: ./ruleset/streamingip.txt
+  apple:
+    type: http
+    behavior: classical
+    format: text
+    interval: 43200
+    url: https://raw.githubusercontent.com/chunzhimoe/ruleset-skk/main/ruleset/apple.txt
+    path: ./ruleset/apple.txt
+  microsoft:
+    type: http
+    behavior: classical
+    format: text
+    interval: 43200
+    url: https://raw.githubusercontent.com/chunzhimoe/ruleset-skk/main/ruleset/microsoft.txt
+    path: ./ruleset/microsoft.txt
+  global:
+    type: http
+    behavior: classical
+    format: text
+    interval: 43200
+    url: https://raw.githubusercontent.com/chunzhimoe/ruleset-skk/main/ruleset/global.txt
+    path: ./ruleset/global.txt
+  domestic:
+    type: http
+    behavior: classical
+    format: text
+    interval: 43200
+    url: https://raw.githubusercontent.com/chunzhimoe/ruleset-skk/main/ruleset/domestic.txt
+    path: ./ruleset/domestic.txt
+  direct:
+    type: http
+    behavior: classical
+    format: text
+    interval: 43200
+    url: https://raw.githubusercontent.com/chunzhimoe/ruleset-skk/main/ruleset/direct.txt
+    path: ./ruleset/direct.txt
+
+rules:
+  - RULE-SET,lan,DIRECT
+  - RULE-SET,lancidr,DIRECT
+  - RULE-SET,reject,🛑 广告拦截
+  - RULE-SET,openai,🧲 OpenAI
+  - RULE-SET,claude,🧩 Claude
+  - RULE-SET,grok,🤖 Grok
+  - RULE-SET,telegram,📲 电报信息
+  - RULE-SET,telegramcidr,📲 电报信息
+  - RULE-SET,streaming,🎬 流媒体
+  - RULE-SET,streamingip,🎬 流媒体
+  - RULE-SET,apple,🍎 苹果服务
+  - RULE-SET,microsoft,Ⓜ️ 微软服务
+  - RULE-SET,global,🚀 节点选择
+  - RULE-SET,domestic,🎯 国内直连
+  - RULE-SET,direct,🎯 国内直连
