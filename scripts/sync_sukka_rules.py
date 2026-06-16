@@ -102,6 +102,7 @@ class OutputSpec:
     sources: tuple[Source, ...]
     rule_filter: tuple[str, ...] = ()
     source_filters: tuple[tuple[str, tuple[str, ...]], ...] = ()
+    source_excludes: tuple[tuple[str, tuple[str, ...]], ...] = ()
 
 
 def sukka(kind: str, name: str, behavior: str = "classical") -> Source:
@@ -194,8 +195,8 @@ OUTPUTS: tuple[OutputSpec, ...] = (
     OutputSpec(
         "ai",
         "classical",
-        (SUKKA_AI_SOURCE, OPENAI_SOURCE, CLAUDE_SOURCE, GROK_SOURCE),
-        source_filters=((GROK_SOURCE.url, GROK_MARKERS),),
+        (SUKKA_AI_SOURCE, OPENAI_SOURCE, CLAUDE_SOURCE),
+        source_excludes=((SUKKA_AI_SOURCE.url, GROK_MARKERS),),
     ),
     OutputSpec(
         "openai",
@@ -447,21 +448,26 @@ def is_allowed_empty_source(source: Source, comments: list[str]) -> bool:
 
 
 def dedupe_rules(parsed_sources: Iterable[ParsedSource], markers: tuple[str, ...]) -> list[tuple[ParsedSource, list[str]]]:
-    return dedupe_rules_with_source_filters(parsed_sources, markers, {})
+    return dedupe_rules_with_source_filters(parsed_sources, markers, {}, {})
 
 
 def dedupe_rules_with_source_filters(
     parsed_sources: Iterable[ParsedSource],
     markers: tuple[str, ...],
     source_filters: dict[str, tuple[str, ...]],
+    source_excludes: dict[str, tuple[str, ...]] | None = None,
 ) -> list[tuple[ParsedSource, list[str]]]:
     seen: set[str] = set()
     sections: list[tuple[ParsedSource, list[str]]] = []
+    excludes = source_excludes or {}
 
     for parsed in parsed_sources:
         source_rules: list[str] = []
         effective_markers = source_filters.get(parsed.source.url, markers)
+        exclude_markers = excludes.get(parsed.source.url, ())
         for rule in parsed.rules:
+            if exclude_markers and matches_any_marker(rule, exclude_markers):
+                continue
             if effective_markers and not matches_any_marker(rule, effective_markers):
                 continue
             if rule in seen:
@@ -614,10 +620,12 @@ def main() -> int:
     for spec in OUTPUTS:
         parsed_sources = [parsed_by_url[source.url] for source in spec.sources]
         source_filters = dict(spec.source_filters)
+        source_excludes = dict(spec.source_excludes)
         sections = dedupe_rules_with_source_filters(
             parsed_sources,
             spec.rule_filter,
             source_filters,
+            source_excludes,
         )
         if not sections:
             raise RuntimeError(f"{spec.name}: no rules after filtering")
