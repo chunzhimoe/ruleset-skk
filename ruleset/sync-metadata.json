@@ -29,30 +29,25 @@
       "name": "blackmatrix7:OpenAI",
       "sha256": "6f4047cdbf6953cf5d9b38c4ccd6da7bc6f1acb91b7a87134f25d5b8f5d2408b"
     },
-    "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Twitter/Twitter.list": {
-      "last_updated": null,
-      "name": "blackmatrix7:Twitter",
-      "sha256": "64c836f2431ca0d4728cc545bb74280ee50c886e346040012e6cdd2f3eee3f97"
-    },
     "https://ruleset.skk.moe/Clash/domainset/apple_cdn.txt": {
       "last_updated": "2026-05-10T06:25:18.685Z",
       "name": "sukka:domainset/apple_cdn.txt",
       "sha256": "8e67ef25609bbfffcff5dad119a78e120f66e08b0ea7eb53a75a4a9e7d5cb8ea"
     },
     "https://ruleset.skk.moe/Clash/domainset/reject.txt": {
-      "last_updated": "2026-06-16T20:19:00.122Z",
+      "last_updated": "2026-06-17T04:04:18.470Z",
       "name": "sukka:domainset/reject.txt",
-      "sha256": "67346746f9e9140b16703715d9de723d79d56389c48c448f84d4838c4b1d859a"
+      "sha256": "ab04bd1b9c7a0d57beaad632e8fb40593162ceee47e336cbbba8088b67127202"
     },
     "https://ruleset.skk.moe/Clash/domainset/reject_extra.txt": {
-      "last_updated": "2026-06-16T20:19:00.122Z",
+      "last_updated": "2026-06-17T04:04:18.470Z",
       "name": "sukka:domainset/reject_extra.txt",
-      "sha256": "a68c2bbe228b45a539ea5f2e2a5ffe1bab034e9095502294014e951c99df544c"
+      "sha256": "7b86126e17220ee38649fe132f1065027f8561a5c03cdc12729b85eab54f3d61"
     },
     "https://ruleset.skk.moe/Clash/domainset/reject_phishing.txt": {
-      "last_updated": "2026-06-16T20:19:00.122Z",
+      "last_updated": "2026-06-17T04:04:18.470Z",
       "name": "sukka:domainset/reject_phishing.txt",
-      "sha256": "9fd730ce7bf856b2892f16949ed4e43ea461ff56676047e2c70fcb849bcacf81"
+      "sha256": "bb0e6bd0883a14031ba6ae7ce0952cf49c44aa2ce9fcc703fc0232f0e7d2646c"
     },
     "https://ruleset.skk.moe/Clash/domainset/reject_sukka.txt": {
       "last_updated": null,
