@@ -587,12 +587,15 @@ def render_config(repository: str | None, branch: str, output_specs: dict[str, O
     ]
 
     for name in PROVIDER_ORDER:
-        spec = output_specs[name]
+        if name == "grok":
+            behavior = "classical"
+        else:
+            behavior = output_specs[name].behavior
         lines.extend(
             (
                 f"  {name}:",
                 "    type: http",
-                f"    behavior: {spec.behavior}",
+                f"    behavior: {behavior}",
                 "    format: text",
                 "    interval: 43200",
                 f"    url: {raw_base}/{name}.txt",
