@@ -30,24 +30,24 @@
       "sha256": "6f4047cdbf6953cf5d9b38c4ccd6da7bc6f1acb91b7a87134f25d5b8f5d2408b"
     },
     "https://ruleset.skk.moe/Clash/domainset/apple_cdn.txt": {
-      "last_updated": "2026-05-10T06:25:18.685Z",
+      "last_updated": "2026-06-19T19:09:29.518Z",
       "name": "sukka:domainset/apple_cdn.txt",
-      "sha256": "8e67ef25609bbfffcff5dad119a78e120f66e08b0ea7eb53a75a4a9e7d5cb8ea"
+      "sha256": "2a8b08462676631f786f96cbe3ca8285eef5df3b95793603277f191794ed3f02"
     },
     "https://ruleset.skk.moe/Clash/domainset/reject.txt": {
-      "last_updated": "2026-06-18T19:35:56.756Z",
+      "last_updated": "2026-06-19T19:09:28.745Z",
       "name": "sukka:domainset/reject.txt",
-      "sha256": "fd382373589400cfefa589550ab7368b13b072f3ce3bc4a6e9342da61d7be7e5"
+      "sha256": "3aedac7ee9ae36edc9d304e2fbd502587a8a42ac1a083acfe2ce3634e15eabf5"
     },
     "https://ruleset.skk.moe/Clash/domainset/reject_extra.txt": {
-      "last_updated": "2026-06-18T19:35:56.756Z",
+      "last_updated": "2026-06-19T19:09:28.745Z",
       "name": "sukka:domainset/reject_extra.txt",
-      "sha256": "aad04922ff9a00f2a13f732b6330f0e5d5338eb4522683921281490ed408d09f"
+      "sha256": "a977ba7868156a17fac6c465f33d12c0c1d0eb41ba39095733a885261eb65e7a"
     },
     "https://ruleset.skk.moe/Clash/domainset/reject_phishing.txt": {
-      "last_updated": "2026-06-18T19:35:56.756Z",
+      "last_updated": "2026-06-19T19:09:28.745Z",
       "name": "sukka:domainset/reject_phishing.txt",
-      "sha256": "cb30b7adb11c0c21e10f64c9bf88e6048fddeb9d6af41e223f10c18ca80eafdb"
+      "sha256": "146476067624d15d07966f174630031fe806b69cfdb678ea61310c7e5c2b575a"
     },
     "https://ruleset.skk.moe/Clash/domainset/reject_sukka.txt": {
       "last_updated": null,
