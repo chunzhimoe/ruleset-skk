@@ -30,24 +30,24 @@
       "sha256": "6f4047cdbf6953cf5d9b38c4ccd6da7bc6f1acb91b7a87134f25d5b8f5d2408b"
     },
     "https://ruleset.skk.moe/Clash/domainset/apple_cdn.txt": {
-      "last_updated": "2026-06-19T19:09:29.518Z",
+      "last_updated": "2026-06-30T21:42:10.058Z",
       "name": "sukka:domainset/apple_cdn.txt",
-      "sha256": "2a8b08462676631f786f96cbe3ca8285eef5df3b95793603277f191794ed3f02"
+      "sha256": "a134e99c834cb459568ae828ac6de9d63123545b86c7ef192544a7a599d9f573"
     },
     "https://ruleset.skk.moe/Clash/domainset/reject.txt": {
-      "last_updated": "2026-06-29T19:15:19.450Z",
+      "last_updated": "2026-06-30T21:42:09.474Z",
       "name": "sukka:domainset/reject.txt",
-      "sha256": "4c8e504c21e28178b325e0511f5361fd9248e1b771cdd3fa8a4b5d48e1425440"
+      "sha256": "41961372f8e1a106cc288842a638f896fb15260a834b7dbd9604f8e05d1829f0"
     },
     "https://ruleset.skk.moe/Clash/domainset/reject_extra.txt": {
-      "last_updated": "2026-06-29T19:15:19.451Z",
+      "last_updated": "2026-06-30T21:42:09.474Z",
       "name": "sukka:domainset/reject_extra.txt",
-      "sha256": "f091fcd1cbbaf599804d725e6e0ef0af53bd2a9e95655fed0e6808a68f600c19"
+      "sha256": "26d33923cf9c41e0a8307053928d45b8e367a3ee582719a44a4e25377cb58ff6"
     },
     "https://ruleset.skk.moe/Clash/domainset/reject_phishing.txt": {
-      "last_updated": "2026-06-29T16:31:45.218Z",
+      "last_updated": "2026-06-30T21:42:09.474Z",
       "name": "sukka:domainset/reject_phishing.txt",
-      "sha256": "f63c2c196954f26697c5e3168c26432318db4d14d61136828e1c3a29743e8d49"
+      "sha256": "01280aacdb0acce1172daf7ec2f00d6a9c6b0bebd84929bd816d794743f6e48f"
     },
     "https://ruleset.skk.moe/Clash/domainset/reject_sukka.txt": {
       "last_updated": null,
@@ -115,59 +115,59 @@
       "sha256": "3701a026b6376af0b8f4049e90531801dffcbf65126c0db2fc1ae8b2009d85f2"
     },
     "https://ruleset.skk.moe/Clash/non_ip/ai.txt": {
-      "last_updated": "2026-03-10T05:42:43.330Z",
+      "last_updated": "2026-06-30T21:42:09.826Z",
       "name": "sukka:non_ip/ai.txt",
-      "sha256": "3e0b6c08fd4b15df15dff478d3f0df5bdf0db1e93706aee18935be048996b919"
+      "sha256": "0c2b4f063a9384280f8bff53f479bebfde6e56e86f627ee00972e903f3be0e5c"
     },
     "https://ruleset.skk.moe/Clash/non_ip/apple_cn.txt": {
-      "last_updated": "2026-03-10T14:56:40.478Z",
+      "last_updated": "2026-06-30T21:42:09.827Z",
       "name": "sukka:non_ip/apple_cn.txt",
-      "sha256": "8896423cf6c8efb2c5b90ce3b3cada9d8e1d21613dd963ff67dcfb54494c6fc0"
+      "sha256": "24840681bef485142223772bdba04aa8cdb2a955990e269fdfe389af81a5f8c0"
     },
     "https://ruleset.skk.moe/Clash/non_ip/apple_intelligence.txt": {
-      "last_updated": "2026-03-10T14:56:40.479Z",
+      "last_updated": "2026-06-30T21:42:09.829Z",
       "name": "sukka:non_ip/apple_intelligence.txt",
-      "sha256": "74e272fed69e52832829805914fd81184c40c0cdbcc678f792403caf2dd4113b"
+      "sha256": "7946114d2ebdbbb58acb298d54db47e325d0044d033eb82244a0530b101d83e0"
     },
     "https://ruleset.skk.moe/Clash/non_ip/apple_services.txt": {
-      "last_updated": "2026-05-09T06:58:35.067Z",
+      "last_updated": "2026-06-30T21:42:09.830Z",
       "name": "sukka:non_ip/apple_services.txt",
-      "sha256": "dce6a342012ed82111daa1acabedd75d61b2c5030390b6158839aaba764f53e7"
+      "sha256": "a40b1657d2bdec59c384c1526b6c07d08af6ce365f95cdba983fd9a2f8e891ac"
     },
     "https://ruleset.skk.moe/Clash/non_ip/direct.txt": {
-      "last_updated": "2026-04-16T09:46:43.751Z",
+      "last_updated": "2026-06-30T21:42:09.921Z",
       "name": "sukka:non_ip/direct.txt",
-      "sha256": "75a7366de63dfe4c020d6bfe58dc95f02e8c2f0becd7ed4e30e0b2f5fc085b2f"
+      "sha256": "9a048f1615d825d400660a88ef07943b517648b3391555f8bcf0c14a28be7c71"
     },
     "https://ruleset.skk.moe/Clash/non_ip/domestic.txt": {
-      "last_updated": "2026-06-29T11:00:23.517Z",
+      "last_updated": "2026-06-30T21:42:09.921Z",
       "name": "sukka:non_ip/domestic.txt",
-      "sha256": "825fa327a4b60eebbe6769b19c8e07d6c1ad93482739306808d8b62090860f46"
+      "sha256": "aea3b58a7f7c4734c594e90e239bd4f6d231bfaa70698f75f260fe49cc2d13e4"
     },
     "https://ruleset.skk.moe/Clash/non_ip/global.txt": {
-      "last_updated": "2026-06-29T11:00:23.166Z",
+      "last_updated": "2026-06-30T21:42:09.654Z",
       "name": "sukka:non_ip/global.txt",
-      "sha256": "09af6e345af0b4b4ae19a3946190066b17c4f649ad96ea965a5515fa072ea36e"
+      "sha256": "52a834db0d2f55c8de1139bc7342f74069194f4602f07ee60ef0deb64d502c27"
     },
     "https://ruleset.skk.moe/Clash/non_ip/lan.txt": {
-      "last_updated": "2026-03-17T08:54:47.269Z",
+      "last_updated": "2026-06-30T21:42:09.921Z",
       "name": "sukka:non_ip/lan.txt",
-      "sha256": "77c7c56d79975548babd41a2bc7a8304d3a1cb90639e6dcfba379d39398cf02d"
+      "sha256": "f52aa0d9b647de71526cdb3d1b353a1b638a9e9eeac349a326ff37f1704d6fc2"
     },
     "https://ruleset.skk.moe/Clash/non_ip/microsoft.txt": {
-      "last_updated": "2026-03-10T14:56:40.483Z",
+      "last_updated": "2026-06-30T21:42:09.839Z",
       "name": "sukka:non_ip/microsoft.txt",
-      "sha256": "11f93fc32f0ad419d16d58b42cd37120cb29234574186fd3446858ea70e471b4"
+      "sha256": "e82f6da6ff3990ff53ca7a88741b7da1756a79506a82029fea16e2736986740f"
     },
     "https://ruleset.skk.moe/Clash/non_ip/microsoft_cdn.txt": {
-      "last_updated": "2026-06-21T09:03:21.221Z",
+      "last_updated": "2026-06-30T21:42:11.521Z",
       "name": "sukka:non_ip/microsoft_cdn.txt",
-      "sha256": "04becd610b320c5813c99d914d08da3c27c021e1beb8bee301c5007af2d87416"
+      "sha256": "90b9d53c8c06908997263b708fd73577ee4ab871d5b8a593ab444377dc13cc95"
     },
     "https://ruleset.skk.moe/Clash/non_ip/stream.txt": {
-      "last_updated": "2026-03-31T15:36:17.088Z",
+      "last_updated": "2026-06-30T21:42:09.495Z",
       "name": "sukka:non_ip/stream.txt",
-      "sha256": "0f92036746b1d702d24050081c855da4ae540e76bab59ba73413e48d962e347f"
+      "sha256": "a1edadf2c85157df9de708e3c79a8f693664f1432cfbd3dfdda92f7c96ac52d1"
     },
     "https://ruleset.skk.moe/Clash/non_ip/stream_biliintl.txt": {
       "last_updated": "2025-01-17T12:44:34.353Z",
@@ -175,39 +175,39 @@
       "sha256": "a1a01421c7a697b9bc545d058171139daadfa58554d86c164f97fa5f1a92e34c"
     },
     "https://ruleset.skk.moe/Clash/non_ip/stream_eu.txt": {
-      "last_updated": "2026-03-10T14:56:40.271Z",
+      "last_updated": "2026-06-30T21:42:09.495Z",
       "name": "sukka:non_ip/stream_eu.txt",
-      "sha256": "df49f2cb6b7c7763eda4257409e77c365acd99b40e02a4988e3cd07f9d570670"
+      "sha256": "f941facbb0fa307b43f08bc394f746a9bb33388fb6adb08e9cb21a436461d2fc"
     },
     "https://ruleset.skk.moe/Clash/non_ip/stream_hk.txt": {
-      "last_updated": "2026-03-10T14:56:40.271Z",
+      "last_updated": "2026-06-30T21:42:09.495Z",
       "name": "sukka:non_ip/stream_hk.txt",
-      "sha256": "ff9cf9560dbcffbed6064edd21391a90975e617be2b8aeec2ca837947cd029a1"
+      "sha256": "53309d5707566380a420b88fbb56edc0b4b50187a5ba388aedc973a839813037"
     },
     "https://ruleset.skk.moe/Clash/non_ip/stream_jp.txt": {
-      "last_updated": "2026-03-10T14:56:40.271Z",
+      "last_updated": "2026-06-30T21:42:09.495Z",
       "name": "sukka:non_ip/stream_jp.txt",
-      "sha256": "12a4c3e6f354549d8fa915f1b16fc8cef393eb5569b9c3eaf7b9e1ce63fb99f5"
+      "sha256": "fa0c65ec52243c19ef3d2c859db323f96e6017f852c158121557ba7f267516ec"
     },
     "https://ruleset.skk.moe/Clash/non_ip/stream_kr.txt": {
-      "last_updated": "2026-03-10T14:56:40.271Z",
+      "last_updated": "2026-06-30T21:42:09.495Z",
       "name": "sukka:non_ip/stream_kr.txt",
-      "sha256": "e1a53b5a6906a3031e523061b9fecf77a69fe69eaed29de11e0f1985658a8de3"
+      "sha256": "708624b2f8465f717a510ad4ba1d4f3873152ab329b6d741f9468713667b37f3"
     },
     "https://ruleset.skk.moe/Clash/non_ip/stream_tw.txt": {
-      "last_updated": "2026-03-10T14:56:40.271Z",
+      "last_updated": "2026-06-30T21:42:09.495Z",
       "name": "sukka:non_ip/stream_tw.txt",
-      "sha256": "7350c9116eaf7d42f1505b49c13d0d06404ef61021e624b6dbdabcbb0221c9d1"
+      "sha256": "85bd397f98aeeb6e283978a8cf3c14743c35ce8f41c8ae734922569cbfb6014e"
     },
     "https://ruleset.skk.moe/Clash/non_ip/stream_us.txt": {
-      "last_updated": "2026-03-10T14:56:40.271Z",
+      "last_updated": "2026-06-30T21:42:09.495Z",
       "name": "sukka:non_ip/stream_us.txt",
-      "sha256": "088a21f4d717bd065ed9c43eb63e5e02c26a7dac7aa1335c4d2bd923939177a6"
+      "sha256": "242797582e8a596eae69911e6e6e0b5f0a9a116ba3e1d8d0a8aaed3c33e77a24"
     },
     "https://ruleset.skk.moe/Clash/non_ip/telegram.txt": {
-      "last_updated": "2026-03-10T14:56:40.495Z",
+      "last_updated": "2026-06-30T21:42:09.872Z",
       "name": "sukka:non_ip/telegram.txt",
-      "sha256": "1c1b74d6d9911a8883ea1f77a54c730eb09cde6e935aaf8d3336bc3c1faba6ba"
+      "sha256": "ab9988f4305564ba6a577b392bd4e6c62dbd286ef1828e95e2fbe082f38e1b25"
     }
   }
 }
