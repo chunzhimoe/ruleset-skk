@@ -35,19 +35,19 @@
       "sha256": "a134e99c834cb459568ae828ac6de9d63123545b86c7ef192544a7a599d9f573"
     },
     "https://ruleset.skk.moe/Clash/domainset/reject.txt": {
-      "last_updated": "2026-07-07T19:14:17.684Z",
+      "last_updated": "2026-07-08T18:42:59.185Z",
       "name": "sukka:domainset/reject.txt",
-      "sha256": "8989de4c677aece15e42ac925a019c21bb5c811f104260422add76bb1bda822f"
+      "sha256": "7fb0ea8cfc7f7452dd48efffa592266d3988ce571f764713575e8c7a45ed5983"
     },
     "https://ruleset.skk.moe/Clash/domainset/reject_extra.txt": {
-      "last_updated": "2026-07-07T19:14:17.684Z",
+      "last_updated": "2026-07-08T18:42:59.185Z",
       "name": "sukka:domainset/reject_extra.txt",
-      "sha256": "504ab6eea073fa797247c909f53aa062ae50b371b388a6ce66cc8bde9d75ea91"
+      "sha256": "471b8aab9d93840da124252dc01d9c829d9291340e4669db089921b27641e37e"
     },
     "https://ruleset.skk.moe/Clash/domainset/reject_phishing.txt": {
-      "last_updated": "2026-07-07T19:14:17.684Z",
+      "last_updated": "2026-07-08T18:42:59.185Z",
       "name": "sukka:domainset/reject_phishing.txt",
-      "sha256": "8774992b0f9cad59a8259242b704a6dcd55f1ca9db93723e550db91fef4f1f52"
+      "sha256": "486ee412b07542bdb94bccc4ae8dfb72fd348631e9fac4f89e58a5d583f33a70"
     },
     "https://ruleset.skk.moe/Clash/domainset/reject_sukka.txt": {
       "last_updated": null,
