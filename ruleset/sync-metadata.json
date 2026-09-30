@@ -35,19 +35,19 @@
       "sha256": "353e7f1244fe816019036274f13762ecaf25c29b3f4a01ab952fc3f1281626d3"
     },
     "https://ruleset.skk.moe/Clash/domainset/reject.txt": {
-      "last_updated": "2026-09-29T21:23:24.382Z",
+      "last_updated": "2026-09-30T21:24:55.763Z",
       "name": "sukka:domainset/reject.txt",
-      "sha256": "e1f9d6433498221c12c601f402ee3a27065e9e9f57eb60d8e92febd9bab39426"
+      "sha256": "d1d933eec71bd70d322243e2805639734d133e4a99915c7597950a284c085a9b"
     },
     "https://ruleset.skk.moe/Clash/domainset/reject_extra.txt": {
-      "last_updated": "2026-09-29T21:23:24.382Z",
+      "last_updated": "2026-09-30T21:24:55.763Z",
       "name": "sukka:domainset/reject_extra.txt",
-      "sha256": "7f5d21d69a8182623585d8176a922561c763e15557907721007be1d89ce92438"
+      "sha256": "b3a48ab80246e572856abf13e4905a9f15b77b0c5d3f70017782fcfcd292432d"
     },
     "https://ruleset.skk.moe/Clash/domainset/reject_phishing.txt": {
-      "last_updated": "2026-09-29T21:23:24.382Z",
+      "last_updated": "2026-09-30T21:24:55.763Z",
       "name": "sukka:domainset/reject_phishing.txt",
-      "sha256": "c4603445c72dff0ddde4d76fa258be26ad44b3ce4db5579f7fb3dda629bd1032"
+      "sha256": "16145870e16230cc39d33ba4c50d4e0c186002a78ed705ad0ac80ae829beaeba"
     },
     "https://ruleset.skk.moe/Clash/domainset/reject_sukka.txt": {
       "last_updated": null,
@@ -140,14 +140,14 @@
       "sha256": "881e44c53f74bb33e4ef7d132322d44ccfdb9cf403a3598bb4d83e127829343a"
     },
     "https://ruleset.skk.moe/Clash/non_ip/domestic.txt": {
-      "last_updated": "2026-09-22T18:44:23.938Z",
+      "last_updated": "2026-09-30T11:33:00.392Z",
       "name": "sukka:non_ip/domestic.txt",
-      "sha256": "c70cf42b889bfe9c80a8c2c82e3b1f810905236bdc7ee8dff19086933c0283cc"
+      "sha256": "239960f1a15b76abef0f3bd78b66f0f502bf3bbdb5c1caaef5870e181deaec39"
     },
     "https://ruleset.skk.moe/Clash/non_ip/global.txt": {
-      "last_updated": "2026-09-12T18:18:09.438Z",
+      "last_updated": "2026-09-30T11:33:00.165Z",
       "name": "sukka:non_ip/global.txt",
-      "sha256": "91ed14ed9d2afc16127836266ff94e3e0a400d93db398f724e14e4aa69bf03a2"
+      "sha256": "46b71c47237fc1795fb08874c9a27e92ba209293a2c01d43566c9cfdb45dbe76"
     },
     "https://ruleset.skk.moe/Clash/non_ip/lan.txt": {
       "last_updated": "2026-08-05T12:33:04.538Z",
