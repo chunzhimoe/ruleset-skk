@@ -139,6 +139,8 @@ def blackmatrix(service: str, file_name: str) -> Source:
 OPENAI_SOURCE = blackmatrix("OpenAI", "OpenAI")
 CLAUDE_SOURCE = blackmatrix("Claude", "Claude")
 SUKKA_AI_SOURCE = sukka("non_ip", "ai")
+SUKKA_AI_IP_SOURCE = sukka("ip", "ai")
+SUKKA_APPLE_INTELLIGENCE_SOURCE = sukka("non_ip", "apple_intelligence")
 
 
 OUTPUTS: tuple[OutputSpec, ...] = (
@@ -165,7 +167,7 @@ OUTPUTS: tuple[OutputSpec, ...] = (
             sukka("non_ip", "apple_services"),
             sukka("non_ip", "apple_cn"),
             sukka_domain_as_classical("apple_cdn"),
-            sukka("non_ip", "apple_intelligence"),
+            SUKKA_APPLE_INTELLIGENCE_SOURCE,
             sukka("ip", "apple_services"),
         ),
     ),
@@ -219,6 +221,9 @@ OUTPUTS: tuple[OutputSpec, ...] = (
         (CLAUDE_SOURCE, SUKKA_AI_SOURCE),
         CLAUDE_MARKERS,
     ),
+    OutputSpec("ai_non_ip", "classical", (SUKKA_AI_SOURCE,)),
+    OutputSpec("ai_ip", "classical", (SUKKA_AI_IP_SOURCE,)),
+    OutputSpec("apple_intelligence_non_ip", "classical", (SUKKA_APPLE_INTELLIGENCE_SOURCE,)),
 )
 
 PROVIDER_ORDER = (
@@ -228,6 +233,8 @@ PROVIDER_ORDER = (
     "openai",
     "claude",
     "grok",
+    "ai_non_ip",
+    "apple_intelligence_non_ip",
     "telegram",
     "telegramcidr",
     "streaming",
@@ -237,6 +244,7 @@ PROVIDER_ORDER = (
     "global",
     "domestic",
     "direct",
+    "ai_ip",
 )
 
 RULE_LINES = (
@@ -246,6 +254,8 @@ RULE_LINES = (
     "  - RULE-SET,openai,\U0001f9f2 OpenAI",
     "  - RULE-SET,claude,\U0001f9e9 Claude",
     "  - RULE-SET,grok,\U0001f916 Grok",
+    "  - RULE-SET,ai_non_ip,\U0001f9f2 OpenAI",
+    "  - RULE-SET,apple_intelligence_non_ip,\U0001f9f2 OpenAI",
     "  - RULE-SET,telegram,\U0001f4f2 \u7535\u62a5\u4fe1\u606f",
     "  - RULE-SET,telegramcidr,\U0001f4f2 \u7535\u62a5\u4fe1\u606f",
     "  - RULE-SET,streaming,\U0001f3ac \u6d41\u5a92\u4f53",
@@ -255,6 +265,7 @@ RULE_LINES = (
     "  - RULE-SET,global,\U0001f680 \u8282\u70b9\u9009\u62e9",
     "  - RULE-SET,domestic,\U0001f3af \u56fd\u5185\u76f4\u8fde",
     "  - RULE-SET,direct,\U0001f3af \u56fd\u5185\u76f4\u8fde",
+    "  - RULE-SET,ai_ip,\U0001f9f2 OpenAI",
 )
 
 

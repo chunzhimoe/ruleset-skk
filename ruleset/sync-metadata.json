@@ -2,7 +2,10 @@
   "generator": "scripts/sync_sukka_rules.py",
   "outputs": {
     "ai": "ruleset/ai.txt",
+    "ai_ip": "ruleset/ai_ip.txt",
+    "ai_non_ip": "ruleset/ai_non_ip.txt",
     "apple": "ruleset/apple.txt",
+    "apple_intelligence_non_ip": "ruleset/apple_intelligence_non_ip.txt",
     "claude": "ruleset/claude.txt",
     "direct": "ruleset/direct.txt",
     "domestic": "ruleset/domestic.txt",
@@ -53,6 +56,11 @@
       "last_updated": null,
       "name": "sukka:domainset/reject_sukka.txt",
       "sha256": "3ed8b018cfb4c387c4d6642bffd935a0b2c5dade3f1df49d97e1d4c3611a12ee"
+    },
+    "https://ruleset.skk.moe/Clash/ip/ai.txt": {
+      "last_updated": "2026-11-16T06:05:14.093Z",
+      "name": "sukka:ip/ai.txt",
+      "sha256": "0a302fbee593dca126b1bbc2f8921ba3a0afbe4e6c9aefb30909550e18945f01"
     },
     "https://ruleset.skk.moe/Clash/ip/apple_services.txt": {
       "last_updated": "2026-08-05T12:33:04.392Z",

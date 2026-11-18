@@ -23,6 +23,11 @@ jobs:
         with:
           python-version: "3.x"
 
+      - name: Test rule generation
+        run: |
+          python3 -B -m unittest discover -s test
+          node test/check_ct_uk_override.js
+
       - name: Sync rules
         run: >-
           python3 scripts/sync_sukka_rules.py

@@ -46,6 +46,20 @@ rule-providers:
     interval: 43200
     url: https://raw.githubusercontent.com/chunzhimoe/ruleset-skk/main/ruleset/grok.txt
     path: ./ruleset/grok.txt
+  ai_non_ip:
+    type: http
+    behavior: classical
+    format: text
+    interval: 43200
+    url: https://raw.githubusercontent.com/chunzhimoe/ruleset-skk/main/ruleset/ai_non_ip.txt
+    path: ./ruleset/ai_non_ip.txt
+  apple_intelligence_non_ip:
+    type: http
+    behavior: classical
+    format: text
+    interval: 43200
+    url: https://raw.githubusercontent.com/chunzhimoe/ruleset-skk/main/ruleset/apple_intelligence_non_ip.txt
+    path: ./ruleset/apple_intelligence_non_ip.txt
   telegram:
     type: http
     behavior: classical
@@ -109,6 +123,13 @@ rule-providers:
     interval: 43200
     url: https://raw.githubusercontent.com/chunzhimoe/ruleset-skk/main/ruleset/direct.txt
     path: ./ruleset/direct.txt
+  ai_ip:
+    type: http
+    behavior: classical
+    format: text
+    interval: 43200
+    url: https://raw.githubusercontent.com/chunzhimoe/ruleset-skk/main/ruleset/ai_ip.txt
+    path: ./ruleset/ai_ip.txt
 
 rules:
   - RULE-SET,lan,DIRECT
@@ -117,6 +138,8 @@ rules:
   - RULE-SET,openai,🧲 OpenAI
   - RULE-SET,claude,🧩 Claude
   - RULE-SET,grok,🤖 Grok
+  - RULE-SET,ai_non_ip,🧲 OpenAI
+  - RULE-SET,apple_intelligence_non_ip,🧲 OpenAI
   - RULE-SET,telegram,📲 电报信息
   - RULE-SET,telegramcidr,📲 电报信息
   - RULE-SET,streaming,🎬 流媒体
@@ -126,3 +149,4 @@ rules:
   - RULE-SET,global,🚀 节点选择
   - RULE-SET,domestic,🎯 国内直连
   - RULE-SET,direct,🎯 国内直连
+  - RULE-SET,ai_ip,🧲 OpenAI
