@@ -4,14 +4,18 @@ function main(config) {
 
   const outbound = "CT-UK · USB 4G";
   const usbInterface = "feth50";
-  const claudeProcess = "PROCESS-PATH-REGEX,(?i)(^|/)Claude[.]app/Contents/";
-  const claudeLoopback = `AND,((${claudeProcess}),(OR,((IP-CIDR,127.0.0.0/8,no-resolve),(IP-CIDR6,::1/128,no-resolve)))),DIRECT`;
+  const claudeProcesses = [
+    String.raw`PROCESS-NAME-REGEX,(?i)^(Claude( Helper( \x28(GPU|Plugin|Renderer)\x29)?)?|claude-ios-sim)$`,
+    "PROCESS-PATH-REGEX,(?i)(^|/)Claude[.]app/Contents/"
+  ];
   const claudeDomains = ["claude.ai", "claude.com", "claudeusercontent.com", "anthropic.com"];
   const customHost = "na.gateway.spring.citi.com";
   const customRule = `DOMAIN,${customHost},`;
   const leadingRules = [
-    claudeLoopback,
-    `${claudeProcess},${outbound}`,
+    ...claudeProcesses.flatMap((process) => [
+      `AND,((${process}),(OR,((IP-CIDR,127.0.0.0/8,no-resolve),(IP-CIDR6,::1/128,no-resolve)))),DIRECT`,
+      `${process},${outbound}`
+    ]),
     customRule + outbound,
     ...claudeDomains.map((domain) => `DOMAIN-SUFFIX,${domain},${outbound}`)
   ];
@@ -66,7 +70,7 @@ function main(config) {
   for (const rule of outgoingRules) {
     if (typeof rule !== "string") continue;
     const [type, value, target, ...flags] = rule.split(",");
-    if (target !== outbound || !/^(DOMAIN|DOMAIN-SUFFIX|PROCESS-PATH-REGEX|RULE-SET)$/.test(type)) continue;
+    if (target !== outbound || !/^(DOMAIN|DOMAIN-SUFFIX|PROCESS-(NAME|PATH)-REGEX|RULE-SET)$/.test(type)) continue;
     const selector = [type, value, ...flags].join(",");
     udpBlocks.set(rule, `AND,((NETWORK,UDP),(${selector})),REJECT`);
   }
