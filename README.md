@@ -52,10 +52,13 @@ source headers. See [Sukka's source](https://github.com/SukkaW/Surge) and the
 Import [`clash-party-ct-uk.js`](config/clash-party-ct-uk.js) as a subscription
 override. It adds the three Sukka providers where missing and tells Mihomo to
 refresh them from the official server every 12 hours. It keeps existing
-provider URLs and routes both the new rules and existing AI service rules
-(including Grok) through `feth50`. Matched AI domain sets also use
-DNS-over-HTTPS through that interface. Adjust the interface name if yours
-differs.
+provider URLs and routes TCP matched by the AI rules and the Claude desktop
+app through `feth50`. Claude and the matched AI domains use DNS-over-HTTPS
+through the same interface. Adjust the interface name if yours differs.
+
+The override rejects matched UDP outside the Claude app's loopback connections
+to avoid DNS and WebRTC traffic falling through to the primary network. WebRTC
+features that require UDP can be unavailable with this override.
 
 The override also has an exact CT UK route and DNS policy for the locally
 requested `na.gateway.spring.citi.com` host. Other `citi.com` hosts keep the
