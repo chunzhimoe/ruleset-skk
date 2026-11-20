@@ -7,6 +7,8 @@ function main(config) {
 
   const outbound = useSecondUfi ? "CT-UK · UFI 2" : "CT-UK · USB 4G";
   const usbInterface = useSecondUfi ? "feth52" : "feth50";
+  const wifiCallingProvider = "wifi-call-uk";
+  const wifiCallingOutbound = `${outbound} · Wi-Fi Calling`;
   const aiProcesses = [
     String.raw`PROCESS-NAME-REGEX,(?i)^(Claude( Helper( \x28(GPU|Plugin|Renderer)\x29)?)?|claude-ios-sim)$`,
     "PROCESS-PATH-REGEX,(?i)(^|/)Claude[.]app/Contents/",
@@ -43,6 +45,7 @@ function main(config) {
     "openai", "claude", "grok", "gemini", "ai", ...Object.keys(sukkaProviders)
   ]);
   const matchedProviders = new Set();
+  const providers = (config["rule-providers"] ||= {});
   const existingRules = config.rules.filter((rule) =>
     typeof rule !== "string" ||
       (!generatedRules.has(rule) && !exactDomainRules.some((prefix) => rule.startsWith(prefix)))
@@ -51,10 +54,11 @@ function main(config) {
     if (typeof rule !== "string") return rule;
     const parts = rule.split(",");
     const provider = parts[1]?.trim();
-    if (parts.length < 3 || parts[0].trim() !== "RULE-SET" ||
-        !aiProviders.has(provider)) return rule;
+    if (parts.length < 3 || parts[0].trim() !== "RULE-SET") return rule;
+    const wifiCalling = provider === wifiCallingProvider && providers[provider];
+    if (!wifiCalling && !aiProviders.has(provider)) return rule;
     matchedProviders.add(provider);
-    parts[2] = outbound;
+    parts[2] = wifiCalling ? wifiCallingOutbound : outbound;
     return parts.join(",");
   });
   // Preserve the subscription's specific rules ahead of the new AI domain rules.
@@ -69,7 +73,6 @@ function main(config) {
     rules.splice(ipBoundary < 0 ? rules.length : ipBoundary, 0, `RULE-SET,ai_ip,${outbound}`);
   }
 
-  const providers = (config["rule-providers"] ||= {});
   for (const [name, url] of Object.entries(sukkaProviders)) {
     matchedProviders.add(name);
     providers[name] ??= {
@@ -92,8 +95,11 @@ function main(config) {
   config.rules = outgoingRules.filter((rule) => !generatedBlocks.has(rule))
     .flatMap((rule) => udpBlocks.has(rule) ? [udpBlocks.get(rule), rule] : [rule]);
   config.proxies = [
-    ...(config.proxies || []).filter((proxy) => proxy.name !== outbound),
-    { name: outbound, type: "direct", "interface-name": usbInterface, "ip-version": "ipv4", udp: false }
+    ...(config.proxies || []).filter((proxy) => proxy.name !== outbound && proxy.name !== wifiCallingOutbound),
+    { name: outbound, type: "direct", "interface-name": usbInterface, "ip-version": "ipv4", udp: false },
+    ...(matchedProviders.has(wifiCallingProvider) ? [{
+      name: wifiCallingOutbound, type: "direct", "interface-name": usbInterface, "ip-version": "ipv4", udp: true
+    }] : [])
   ];
 
   if (config.dns?.enable) {

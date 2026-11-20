@@ -65,8 +65,14 @@ from the official server every 12 hours. Existing provider URLs are preserved.
 
 HTTPS routing uses hostnames, so URLs on the same host use the same route.
 Other hostnames follow the subscription unless an AI or process rule matches.
-Both overrides reject matched external UDP to avoid falling through to the
-primary network. WebRTC features that require UDP can be unavailable.
+Both overrides reject matched external UDP for AI and Search to avoid falling
+through to the primary network. WebRTC features that require UDP can be
+unavailable.
+
+If the subscription has a `wifi-call-uk` provider and rule, the override routes
+that rule through a separate direct outbound on the same USB interface.
+This outbound allows UDP for Wi-Fi Calling, and the matched domains use the
+same interface for DNS-over-HTTPS.
 
 After editing the shared routing logic in `clash-party-ct-uk.js`, rebuild the
 standalone override with `node scripts/build_clash_ufi2.js`.

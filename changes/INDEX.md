@@ -6,3 +6,4 @@
 | 2026-11-19 | [恢复 CT UK USB 直连并阻止匹配的 UDP](2026-11-19_ufi-direct.md) |
 | 2026-11-20 | [新增默认停用的第二台 UFI 覆写](2026-11-20_ufi2-override.md) |
 | 2026-11-20 | [统一两台 UFI 的分流规则](2026-11-20_ufi-rule-parity.md) |
+| 2026-11-20 | [接入英国 Wi-Fi Calling 的 UFI 直连](2026-11-20_ufi-wifi-calling.md) |

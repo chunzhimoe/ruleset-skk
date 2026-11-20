@@ -154,4 +154,27 @@ assert.deepEqual({
   dns: { ...second.dns, "nameserver-policy": secondPolicies }
 }, result);
 assert.deepEqual(secondOverride(second), second);
+
+const wifiInput = structuredClone(input);
+wifiInput.rules.unshift("RULE-SET,wifi-call-hk,HK Calling", "RULE-SET,wifi-call-uk,UK Calling");
+wifiInput["rule-providers"]["wifi-call-uk"] = {
+  type: "inline", behavior: "classical", payload: ["DOMAIN,epdg.epc.mnc010.mcc234.pub.3gppnetwork.org"]
+};
+for (const [apply, label, network] of [
+  [override, outbound, "feth50"],
+  [secondOverride, secondOutbound, "feth52"]
+]) {
+  const wifi = apply(wifiInput);
+  const callingOutbound = `${label} · Wi-Fi Calling`;
+  assert(wifi.rules.includes(`RULE-SET,wifi-call-uk,${callingOutbound}`));
+  assert(wifi.rules.includes("RULE-SET,wifi-call-hk,HK Calling"));
+  assert(!wifi.rules.includes(blockUdp("RULE-SET,wifi-call-uk")));
+  assert.deepEqual(wifi["rule-providers"]["wifi-call-uk"], wifiInput["rule-providers"]["wifi-call-uk"]);
+  assert.equal(wifi.dns["nameserver-policy"]["rule-set:wifi-call-uk"], `https://1.1.1.1/dns-query#${network}`);
+  assert.deepEqual(wifi.proxies.find(({ name }) => name === callingOutbound), {
+    name: callingOutbound, type: "direct", "interface-name": network, "ip-version": "ipv4", udp: true
+  });
+  assert.equal(wifi.proxies.find(({ name }) => name === label).udp, false);
+  assert.deepEqual(apply(wifi), wifi);
+}
 console.log("Both CT UK override checks passed");
