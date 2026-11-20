@@ -1,23 +1,39 @@
 // Clash Party subscription override for a CT UK USB connection on macOS.
+const useSecondUfi = false;
+
 function main(config) {
   if (!Array.isArray(config.rules)) return config;
 
-  const outbound = "CT-UK · USB 4G";
-  const usbInterface = "feth50";
-  const claudeProcesses = [
+  const outbound = useSecondUfi ? "CT-UK · UFI 2" : "CT-UK · USB 4G";
+  const usbInterface = useSecondUfi ? "feth52" : "feth50";
+  const aiProcesses = [
     String.raw`PROCESS-NAME-REGEX,(?i)^(Claude( Helper( \x28(GPU|Plugin|Renderer)\x29)?)?|claude-ios-sim)$`,
     "PROCESS-PATH-REGEX,(?i)(^|/)Claude[.]app/Contents/"
   ];
-  const claudeDomains = ["claude.ai", "claude.com", "claudeusercontent.com", "anthropic.com"];
-  const customHost = "na.gateway.spring.citi.com";
-  const customRule = `DOMAIN,${customHost},`;
+  const routedDomains = ["claude.ai", "claude.com", "claudeusercontent.com", "anthropic.com"];
+  const routedHosts = ["na.gateway.spring.citi.com"];
+  if (useSecondUfi) {
+    aiProcesses.push(
+      "PROCESS-PATH-REGEX,(?i)(^|/)Antigravity[.]app/Contents/",
+      "PROCESS-NAME,agy"
+    );
+    routedDomains.push("antigravity.google");
+    routedHosts.push(
+      "google.com", "www.google.com",
+      "antigravity-unleash.goog", "cloudcode-pa.googleapis.com",
+      "daily-cloudcode-pa.googleapis.com", "daily-cloudcode-pa.sandbox.googleapis.com",
+      "businessaicode.googleapis.com", "businessaicode.us.rep.googleapis.com",
+      "businessaicode.eu.rep.googleapis.com", "businessaicode.mtls.googleapis.com"
+    );
+  }
+  const exactDomainRules = routedHosts.map((host) => `DOMAIN,${host},`);
   const leadingRules = [
-    ...claudeProcesses.flatMap((process) => [
+    ...aiProcesses.flatMap((process) => [
       `AND,((${process}),(OR,((IP-CIDR,127.0.0.0/8,no-resolve),(IP-CIDR6,::1/128,no-resolve)))),DIRECT`,
       `${process},${outbound}`
     ]),
-    customRule + outbound,
-    ...claudeDomains.map((domain) => `DOMAIN-SUFFIX,${domain},${outbound}`)
+    ...exactDomainRules.map((rule) => rule + outbound),
+    ...routedDomains.map((domain) => `DOMAIN-SUFFIX,${domain},${outbound}`)
   ];
   const generatedRules = new Set(leadingRules);
   const sukka = "https://ruleset.skk.moe/Clash";
@@ -31,7 +47,8 @@ function main(config) {
   ]);
   const matchedProviders = new Set();
   const existingRules = config.rules.filter((rule) =>
-    typeof rule !== "string" || (!rule.startsWith(customRule) && !generatedRules.has(rule))
+    typeof rule !== "string" ||
+      (!generatedRules.has(rule) && !exactDomainRules.some((prefix) => rule.startsWith(prefix)))
   );
   const rules = existingRules.map((rule) => {
     if (typeof rule !== "string") return rule;
@@ -70,7 +87,7 @@ function main(config) {
   for (const rule of outgoingRules) {
     if (typeof rule !== "string") continue;
     const [type, value, target, ...flags] = rule.split(",");
-    if (target !== outbound || !/^(DOMAIN|DOMAIN-SUFFIX|PROCESS-(NAME|PATH)-REGEX|RULE-SET)$/.test(type)) continue;
+    if (target !== outbound || !/^(DOMAIN|DOMAIN-SUFFIX|PROCESS-(NAME|PATH)(-REGEX)?|RULE-SET)$/.test(type)) continue;
     const selector = [type, value, ...flags].join(",");
     udpBlocks.set(rule, `AND,((NETWORK,UDP),(${selector})),REJECT`);
   }
@@ -85,8 +102,8 @@ function main(config) {
   if (config.dns?.enable) {
     const dnsOverHttps = `https://1.1.1.1/dns-query#${usbInterface}`;
     const policy = { ...config.dns["nameserver-policy"] };
-    policy[customHost] = dnsOverHttps;
-    for (const domain of claudeDomains) policy[`+.${domain}`] = dnsOverHttps;
+    for (const host of routedHosts) policy[host] = dnsOverHttps;
+    for (const domain of routedDomains) policy[`+.${domain}`] = dnsOverHttps;
     for (const provider of matchedProviders) {
       const behavior = providers[provider]?.behavior;
       if (provider !== "ai_ip" && (behavior === "classical" || behavior === "domain")) {

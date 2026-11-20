@@ -63,3 +63,18 @@ features that require UDP can be unavailable with this override.
 The override also has an exact CT UK route and DNS policy for the locally
 requested `na.gateway.spring.citi.com` host. Other `citi.com` hosts keep the
 subscription's rules.
+
+### Optional second UFI
+
+Import [`clash-party-ufi2.js`](config/clash-party-ufi2.js) as a separate local
+override. Leave global enablement off until you want to use it. Enable one UFI
+override per subscription so both scripts do not redirect the same AI rules.
+
+The second override binds to `feth52`. It uses the same AI rules as the first
+override and adds Antigravity and the exact Google Search hostnames `google.com`
+and `www.google.com`. HTTPS routing matches hostnames, so URLs sharing either
+hostname use the same route. Other Google hostnames follow the subscription
+unless an AI rule or the Antigravity process matches.
+
+After editing the shared routing logic in `clash-party-ct-uk.js`, rebuild the
+standalone override with `node scripts/build_clash_ufi2.js`.

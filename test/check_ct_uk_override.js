@@ -102,4 +102,50 @@ assert.equal(result.dns["nameserver-policy"]["rule-set:claude"], proxyDns);
 assert.equal(result.dns["nameserver-policy"]["rule-set:grok"], proxyDns);
 assert.equal(result.dns["nameserver-policy"]["rule-set:ai_ip"], undefined);
 assert.deepEqual(override(result), result);
-console.log("CT UK override checks passed");
+
+const secondSource = fs.readFileSync(path.join(__dirname, "../config/clash-party-ufi2.js"), "utf8");
+const secondMain = vm.runInNewContext(secondSource + "\nmain");
+const secondOverride = (profile) => JSON.parse(JSON.stringify(secondMain(structuredClone(profile))));
+const second = secondOverride(input);
+const secondOutbound = "CT-UK · UFI 2";
+const secondDns = "https://1.1.1.1/dns-query#feth52";
+assert.deepEqual(second.proxies, [{
+  name: secondOutbound, type: "direct", "interface-name": "feth52", "ip-version": "ipv4", udp: false
+}]);
+assert.deepEqual(second["rule-providers"], result["rule-providers"]);
+assert.deepEqual(second.dns.nameserver, input.dns.nameserver);
+
+const googleRule = second.rules.indexOf("RULE-SET,google,Google");
+assert(googleRule >= 0);
+for (const selector of [
+  "DOMAIN,google.com",
+  "DOMAIN,www.google.com",
+  "DOMAIN-SUFFIX,antigravity.google",
+  "DOMAIN,cloudcode-pa.googleapis.com",
+  "DOMAIN,businessaicode.eu.rep.googleapis.com",
+  "PROCESS-PATH-REGEX,(?i)(^|/)Antigravity[.]app/Contents/",
+  "PROCESS-NAME,agy",
+  "RULE-SET,claude",
+  "RULE-SET,grok",
+  "RULE-SET,ai_non_ip"
+]) {
+  const position = second.rules.indexOf(`${selector},${secondOutbound}`);
+  assert(position > 0 && position < googleRule, selector);
+  assert.equal(second.rules[position - 1], blockUdp(selector));
+}
+assert(second.rules.includes(`RULE-SET,ai_ip,${secondOutbound}`));
+for (const host of [
+  "google.com", "www.google.com", "+.antigravity.google", "antigravity-unleash.goog",
+  "cloudcode-pa.googleapis.com", "rule-set:claude", "rule-set:ai_non_ip", customHost
+]) {
+  assert.equal(second.dns["nameserver-policy"][host], secondDns);
+}
+for (const host of [
+  "+.google.com", "+.googleapis.com", "mail.google.com", "drive.google.com", "accounts.google.com", "rule-set:google"
+]) {
+  assert.equal(second.dns["nameserver-policy"][host], undefined);
+}
+assert(!second.rules.includes(`DOMAIN-SUFFIX,google.com,${secondOutbound}`));
+assert.equal(second.dns["nameserver-policy"]["+.example.test"], "system");
+assert.deepEqual(secondOverride(second), second);
+console.log("Both CT UK override checks passed");
