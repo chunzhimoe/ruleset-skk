@@ -49,32 +49,24 @@ source headers. See [Sukka's source](https://github.com/SukkaW/Surge) and the
 
 ### Optional CT UK routing in Clash Party
 
-Import [`clash-party-ct-uk.js`](config/clash-party-ct-uk.js) as a subscription
-override. It adds the three Sukka providers where missing and tells Mihomo to
-refresh them from the official server every 12 hours. It keeps existing
-provider URLs and routes TCP matched by the AI rules and the Claude desktop
-app through `feth50`. Claude and the matched AI domains use DNS-over-HTTPS
-through the same interface. Adjust the interface name if yours differs.
+Import either file as a local override. Enable one UFI override per
+subscription to choose its USB connection.
 
-The override rejects matched UDP outside the Claude app's loopback connections
-to avoid DNS and WebRTC traffic falling through to the primary network. WebRTC
-features that require UDP can be unavailable with this override.
+| Override | USB interface |
+| --- | --- |
+| [`clash-party-ct-uk.js`](config/clash-party-ct-uk.js) | `feth50` |
+| [`clash-party-ufi2.js`](config/clash-party-ufi2.js) | `feth52` |
 
-The override also has an exact CT UK route and DNS policy for the locally
-requested `na.gateway.spring.citi.com` host. Other `citi.com` hosts keep the
-subscription's rules.
+Both use identical rules for the AI providers, Claude and Antigravity processes
+and domains, the Google Search hosts `google.com` and `www.google.com`, and the
+exact `na.gateway.spring.citi.com` hostname. Each uses DNS-over-HTTPS on its
+chosen USB interface for the matched domains. Missing Sukka providers refresh
+from the official server every 12 hours. Existing provider URLs are preserved.
 
-### Optional second UFI
-
-Import [`clash-party-ufi2.js`](config/clash-party-ufi2.js) as a separate local
-override. Leave global enablement off until you want to use it. Enable one UFI
-override per subscription so both scripts do not redirect the same AI rules.
-
-The second override binds to `feth52`. It uses the same AI rules as the first
-override and adds Antigravity and the exact Google Search hostnames `google.com`
-and `www.google.com`. HTTPS routing matches hostnames, so URLs sharing either
-hostname use the same route. Other Google hostnames follow the subscription
-unless an AI rule or the Antigravity process matches.
+HTTPS routing uses hostnames, so URLs on the same host use the same route.
+Other hostnames follow the subscription unless an AI or process rule matches.
+Both overrides reject matched external UDP to avoid falling through to the
+primary network. WebRTC features that require UDP can be unavailable.
 
 After editing the shared routing logic in `clash-party-ct-uk.js`, rebuild the
 standalone override with `node scripts/build_clash_ufi2.js`.

@@ -9,24 +9,20 @@ function main(config) {
   const usbInterface = useSecondUfi ? "feth52" : "feth50";
   const aiProcesses = [
     String.raw`PROCESS-NAME-REGEX,(?i)^(Claude( Helper( \x28(GPU|Plugin|Renderer)\x29)?)?|claude-ios-sim)$`,
-    "PROCESS-PATH-REGEX,(?i)(^|/)Claude[.]app/Contents/"
+    "PROCESS-PATH-REGEX,(?i)(^|/)Claude[.]app/Contents/",
+    "PROCESS-PATH-REGEX,(?i)(^|/)Antigravity[.]app/Contents/",
+    "PROCESS-NAME,agy"
   ];
-  const routedDomains = ["claude.ai", "claude.com", "claudeusercontent.com", "anthropic.com"];
-  const routedHosts = ["na.gateway.spring.citi.com"];
-  if (useSecondUfi) {
-    aiProcesses.push(
-      "PROCESS-PATH-REGEX,(?i)(^|/)Antigravity[.]app/Contents/",
-      "PROCESS-NAME,agy"
-    );
-    routedDomains.push("antigravity.google");
-    routedHosts.push(
-      "google.com", "www.google.com",
-      "antigravity-unleash.goog", "cloudcode-pa.googleapis.com",
-      "daily-cloudcode-pa.googleapis.com", "daily-cloudcode-pa.sandbox.googleapis.com",
-      "businessaicode.googleapis.com", "businessaicode.us.rep.googleapis.com",
-      "businessaicode.eu.rep.googleapis.com", "businessaicode.mtls.googleapis.com"
-    );
-  }
+  const routedDomains = [
+    "claude.ai", "claude.com", "claudeusercontent.com", "anthropic.com", "antigravity.google"
+  ];
+  const routedHosts = [
+    "na.gateway.spring.citi.com", "google.com", "www.google.com",
+    "antigravity-unleash.goog", "cloudcode-pa.googleapis.com",
+    "daily-cloudcode-pa.googleapis.com", "daily-cloudcode-pa.sandbox.googleapis.com",
+    "businessaicode.googleapis.com", "businessaicode.us.rep.googleapis.com",
+    "businessaicode.eu.rep.googleapis.com", "businessaicode.mtls.googleapis.com"
+  ];
   const exactDomainRules = routedHosts.map((host) => `DOMAIN,${host},`);
   const leadingRules = [
     ...aiProcesses.flatMap((process) => [

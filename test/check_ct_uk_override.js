@@ -13,6 +13,7 @@ const pathMatch = "PROCESS-PATH-REGEX,(?i)(^|/)Claude[.]app/Contents/";
 const loopback = (process) => `AND,((${process}),(OR,((IP-CIDR,127.0.0.0/8,no-resolve),(IP-CIDR6,::1/128,no-resolve)))),DIRECT`;
 const proxyDns = "https://1.1.1.1/dns-query#feth50";
 const blockUdp = (selector) => `AND,((NETWORK,UDP),(${selector})),REJECT`;
+const usbRoute = (selector) => [blockUdp(selector), `${selector},${outbound}`];
 const existingAI = {
   type: "http", behavior: "classical", url: "https://example.test/custom-ai.txt"
 };
@@ -49,22 +50,19 @@ for (const name of ["codex", "Claude Code URL Handler", "other-claude", "Claude 
 }
 
 assert.deepEqual(result.rules, [
-  loopback(processMatch),
-  blockUdp(processMatch),
-  `${processMatch},${outbound}`,
-  loopback(pathMatch),
-  blockUdp(pathMatch),
-  `${pathMatch},${outbound}`,
-  blockUdp(`DOMAIN,${customHost}`),
-  `DOMAIN,${customHost},${outbound}`,
-  blockUdp("DOMAIN-SUFFIX,claude.ai"),
-  `DOMAIN-SUFFIX,claude.ai,${outbound}`,
-  blockUdp("DOMAIN-SUFFIX,claude.com"),
-  `DOMAIN-SUFFIX,claude.com,${outbound}`,
-  blockUdp("DOMAIN-SUFFIX,claudeusercontent.com"),
-  `DOMAIN-SUFFIX,claudeusercontent.com,${outbound}`,
-  blockUdp("DOMAIN-SUFFIX,anthropic.com"),
-  `DOMAIN-SUFFIX,anthropic.com,${outbound}`,
+  ...[
+    processMatch, pathMatch,
+    "PROCESS-PATH-REGEX,(?i)(^|/)Antigravity[.]app/Contents/", "PROCESS-NAME,agy"
+  ].flatMap((process) => [loopback(process), ...usbRoute(process)]),
+  ...[
+    customHost, "google.com", "www.google.com", "antigravity-unleash.goog",
+    "cloudcode-pa.googleapis.com", "daily-cloudcode-pa.googleapis.com",
+    "daily-cloudcode-pa.sandbox.googleapis.com", "businessaicode.googleapis.com",
+    "businessaicode.us.rep.googleapis.com", "businessaicode.eu.rep.googleapis.com",
+    "businessaicode.mtls.googleapis.com"
+  ].flatMap((host) => usbRoute(`DOMAIN,${host}`)),
+  ...["claude.ai", "claude.com", "claudeusercontent.com", "anthropic.com", "antigravity.google"]
+    .flatMap((host) => usbRoute(`DOMAIN-SUFFIX,${host}`)),
   "DOMAIN,blocked.test,REJECT",
   blockUdp("RULE-SET,claude"),
   `RULE-SET,claude,${outbound}`,
@@ -147,5 +145,13 @@ for (const host of [
 }
 assert(!second.rules.includes(`DOMAIN-SUFFIX,google.com,${secondOutbound}`));
 assert.equal(second.dns["nameserver-policy"]["+.example.test"], "system");
+const secondPolicies = Object.fromEntries(Object.entries(second.dns["nameserver-policy"])
+  .map(([key, value]) => [key, value === secondDns ? proxyDns : value]));
+assert.deepEqual({
+  ...second,
+  proxies: [{ ...second.proxies[0], name: outbound, "interface-name": "feth50" }],
+  rules: second.rules.map((rule) => rule.replace(`,${secondOutbound}`, `,${outbound}`)),
+  dns: { ...second.dns, "nameserver-policy": secondPolicies }
+}, result);
 assert.deepEqual(secondOverride(second), second);
 console.log("Both CT UK override checks passed");
