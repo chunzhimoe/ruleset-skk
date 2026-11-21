@@ -7,3 +7,4 @@
 | 2026-11-20 | [新增默认停用的第二台 UFI 覆写](2026-11-20_ufi2-override.md) |
 | 2026-11-20 | [统一两台 UFI 的分流规则](2026-11-20_ufi-rule-parity.md) |
 | 2026-11-20 | [接入英国 Wi-Fi Calling 的 UFI 直连](2026-11-20_ufi-wifi-calling.md) |
+| 2026-11-22 | [扩展 Claude Code 域名、NTP 和 IP 分流](2026-11-22_claude-code-routing.md) |

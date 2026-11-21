@@ -74,5 +74,16 @@ that rule through a separate direct outbound on the same USB interface.
 This outbound allows UDP for Wi-Fi Calling, and the matched domains use the
 same interface for DNS-over-HTTPS.
 
+The Claude Code additions cover its service, CDN, sign-in, telemetry and
+verification domains, including the requested `datadog`, `sentry`, and `sift`
+keywords. The same USB interface handles DNS for those matches. The Anthropic
+IPv4 network and ASN rules match destination IPs without triggering DNS. The
+configured IPv6 prefix is rejected while these USB exits are IPv4-only.
+
+Local UDP destination port 123 uses a dedicated NTP outbound on the selected UFI.
+The optional EasyTier relay uses the same Claude domain and destination IP rules
+for TCP. Set `easyTierRelay` only in a private local override with its overlay
+address, source CIDR, port and credentials.
+
 After editing the shared routing logic in `clash-party-ct-uk.js`, rebuild the
 standalone override with `node scripts/build_clash_ufi2.js`.

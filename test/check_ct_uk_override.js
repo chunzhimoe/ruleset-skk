@@ -14,6 +14,17 @@ const loopback = (process) => `AND,((${process}),(OR,((IP-CIDR,127.0.0.0/8,no-re
 const proxyDns = "https://1.1.1.1/dns-query#feth50";
 const blockUdp = (selector) => `AND,((NETWORK,UDP),(${selector})),REJECT`;
 const usbRoute = (selector) => [blockUdp(selector), `${selector},${outbound}`];
+const ntpSelector = "AND,((NETWORK,UDP),(DST-PORT,123))";
+const ntpOutbound = `${outbound} · NTP`;
+const telemetry = "claude-code-telemetry";
+const claudeSuffixes = [
+  "clau.de", "claudemcpclient.com", "claudemcpcontent.com",
+  "anthropic.com.cdn.cloudflare.net", "servd-anthropic-website.b-cdn.net",
+  "anthropic.auth0.com", "anthropic-com.ghost.io",
+  "sentry.io", "statsigapi.net", "browser-intake-us5-datadoghq.com",
+  "intercom.io", "intercomcdn.com", "cdn.usefathom.com", "maps.googleapis.com",
+  "withpersona.com", "frompersona.com"
+];
 const existingAI = {
   type: "http", behavior: "classical", url: "https://example.test/custom-ai.txt"
 };
@@ -50,6 +61,7 @@ for (const name of ["codex", "Claude Code URL Handler", "other-claude", "Claude 
 }
 
 assert.deepEqual(result.rules, [
+  `${ntpSelector},${ntpOutbound}`,
   ...[
     processMatch, pathMatch,
     "PROCESS-PATH-REGEX,(?i)(^|/)Antigravity[.]app/Contents/", "PROCESS-NAME,agy"
@@ -61,8 +73,9 @@ assert.deepEqual(result.rules, [
     "businessaicode.us.rep.googleapis.com", "businessaicode.eu.rep.googleapis.com",
     "businessaicode.mtls.googleapis.com"
   ].flatMap((host) => usbRoute(`DOMAIN,${host}`)),
-  ...["claude.ai", "claude.com", "claudeusercontent.com", "anthropic.com", "antigravity.google"]
+  ...["claude.ai", "claude.com", "claudeusercontent.com", "anthropic.com", "antigravity.google", ...claudeSuffixes]
     .flatMap((host) => usbRoute(`DOMAIN-SUFFIX,${host}`)),
+  ...usbRoute(`RULE-SET,${telemetry}`),
   "DOMAIN,blocked.test,REJECT",
   blockUdp("RULE-SET,claude"),
   `RULE-SET,claude,${outbound}`,
@@ -72,6 +85,11 @@ assert.deepEqual(result.rules, [
   `RULE-SET,ai_non_ip,${outbound}`,
   blockUdp("RULE-SET,apple_intelligence_non_ip"),
   `RULE-SET,apple_intelligence_non_ip,${outbound}`,
+  blockUdp("IP-CIDR,160.79.104.0/21,no-resolve"),
+  `IP-CIDR,160.79.104.0/21,${outbound},no-resolve`,
+  "IP-CIDR6,2607:6bc0::/32,REJECT,no-resolve",
+  blockUdp("IP-ASN,399358,no-resolve"),
+  `IP-ASN,399358,${outbound},no-resolve`,
   "RULE-SET,lancidr,DIRECT",
   "RULE-SET,google,Google",
   "DOMAIN-SUFFIX,citi.com,DIRECT",
@@ -82,6 +100,10 @@ assert.deepEqual(result.rules, [
 ]);
 assert.deepEqual(result["rule-providers"].ai_non_ip, existingAI);
 assert.deepEqual(result["rule-providers"].claude, input["rule-providers"].claude);
+assert.deepEqual(result["rule-providers"][telemetry], {
+  type: "inline", behavior: "classical",
+  payload: ["DOMAIN-KEYWORD,datadog", "DOMAIN-KEYWORD,sentry", "DOMAIN-KEYWORD,sift"]
+});
 assert.equal(result["rule-providers"].ai_ip.url, "https://ruleset.skk.moe/Clash/ip/ai.txt");
 assert.equal(result["rule-providers"].ai_ip.interval, 43200);
 assert.equal(result["rule-providers"].apple_intelligence_non_ip.interval, 43200);
@@ -95,6 +117,10 @@ assert.equal(result.dns["nameserver-policy"]["+.claude.ai"], proxyDns);
 assert.equal(result.dns["nameserver-policy"]["+.claude.com"], proxyDns);
 assert.equal(result.dns["nameserver-policy"]["+.claudeusercontent.com"], proxyDns);
 assert.equal(result.dns["nameserver-policy"]["+.anthropic.com"], proxyDns);
+for (const domain of claudeSuffixes) {
+  assert.equal(result.dns["nameserver-policy"][`+.${domain}`], proxyDns);
+}
+assert.equal(result.dns["nameserver-policy"][`rule-set:${telemetry}`], proxyDns);
 assert.equal(result.dns["nameserver-policy"]["+.citi.com"], undefined);
 assert.equal(result.dns["nameserver-policy"]["rule-set:claude"], proxyDns);
 assert.equal(result.dns["nameserver-policy"]["rule-set:grok"], proxyDns);
@@ -107,9 +133,10 @@ const secondOverride = (profile) => JSON.parse(JSON.stringify(secondMain(structu
 const second = secondOverride(input);
 const secondOutbound = "CT-UK · UFI 2";
 const secondDns = "https://1.1.1.1/dns-query#feth52";
-assert.deepEqual(second.proxies, [{
-  name: secondOutbound, type: "direct", "interface-name": "feth52", "ip-version": "ipv4", udp: false
-}]);
+assert.deepEqual(second.proxies, [
+  { name: secondOutbound, type: "direct", "interface-name": "feth52", "ip-version": "ipv4", udp: false },
+  { name: `${secondOutbound} · NTP`, type: "direct", "interface-name": "feth52", "ip-version": "ipv4", udp: true }
+]);
 assert.deepEqual(second["rule-providers"], result["rule-providers"]);
 assert.deepEqual(second.dns.nameserver, input.dns.nameserver);
 
@@ -149,7 +176,9 @@ const secondPolicies = Object.fromEntries(Object.entries(second.dns["nameserver-
   .map(([key, value]) => [key, value === secondDns ? proxyDns : value]));
 assert.deepEqual({
   ...second,
-  proxies: [{ ...second.proxies[0], name: outbound, "interface-name": "feth50" }],
+  proxies: second.proxies.map((proxy) => ({
+    ...proxy, name: proxy.name.replace(secondOutbound, outbound), "interface-name": "feth50"
+  })),
   rules: second.rules.map((rule) => rule.replace(`,${secondOutbound}`, `,${outbound}`)),
   dns: { ...second.dns, "nameserver-policy": secondPolicies }
 }, result);
@@ -176,5 +205,27 @@ for (const [apply, label, network] of [
   });
   assert.equal(wifi.proxies.find(({ name }) => name === label).udp, false);
   assert.deepEqual(apply(wifi), wifi);
+}
+assert.equal(result.listeners, undefined);
+for (const [template, label] of [[source, outbound], [secondSource, secondOutbound]]) {
+  const settings = {
+    listen: "192.0.2.10", network: "192.0.2.0/24", port: 7898,
+    username: "fixture", password: "fixture-secret"
+  };
+  const relayMain = vm.runInNewContext(template.replace(
+    "const easyTierRelay = null;", () => `const easyTierRelay = ${JSON.stringify(settings)};`
+  ) + "\nmain");
+  const relay = relayMain(structuredClone(input));
+  assert.equal(relay.rules[0], "SUB-RULE,(IN-NAME,easytier-relay),easytier-relay");
+  assert.equal(relay.listeners[0].udp, false);
+  const allowed = relay["sub-rules"]["easytier-relay"];
+  assert.equal(allowed[0], "NOT,((SRC-IP-CIDR,192.0.2.0/24)),REJECT");
+  assert(allowed.includes(`DOMAIN-SUFFIX,claudemcpcontent.com,${label}`));
+  assert(allowed.includes(`RULE-SET,${telemetry},${label}`));
+  assert(allowed.includes(`IP-ASN,399358,${label},no-resolve`));
+  assert(allowed.includes("IP-CIDR6,2607:6bc0::/32,REJECT,no-resolve"));
+  assert.equal(allowed.at(-1), "MATCH,REJECT");
+  assert(!allowed.some((rule) => rule.startsWith(ntpSelector)));
+  assert.equal(JSON.stringify(relayMain(structuredClone(relay))), JSON.stringify(relay));
 }
 console.log("Both CT UK override checks passed");
